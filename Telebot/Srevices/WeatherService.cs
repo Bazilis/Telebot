@@ -7,12 +7,10 @@ namespace Telebot.Srevices
 {
     public class WeatherService
     {
-        private readonly IConfiguration _configuration;
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public WeatherService(IConfiguration configuration, IHttpClientFactory httpClientFactory)
+        public WeatherService(IHttpClientFactory httpClientFactory)
         {
-            _configuration = configuration;
             _httpClientFactory= httpClientFactory;
         }
 
@@ -20,7 +18,7 @@ namespace Telebot.Srevices
         {
             var client = _httpClientFactory.CreateClient("OpenWeatherApi");
 
-            var weatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Tashkent&units=metric&appid={_configuration["ApiKey"]}";
+            var weatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Tashkent&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}";
 
             var weatherRequest = new HttpRequestMessage(HttpMethod.Get, weatherUrl);
 
@@ -50,7 +48,7 @@ namespace Telebot.Srevices
                 resultString.AppendLine();
             }
 
-            var airPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=41.2646&lon=69.2163&appid={_configuration["ApiKey"]}";
+            var airPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=41.2646&lon=69.2163&appid={Environment.GetEnvironmentVariable("ApiKey")}";
 
             var airPollutionRequest = new HttpRequestMessage(HttpMethod.Get, airPollutionUrl);
 

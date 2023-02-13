@@ -21,7 +21,8 @@ namespace Telebot
             builder.Services.AddHostedService<WebhookService>();
             builder.Services.AddHttpClient("TgWebhook")
                     .AddTypedClient<ITelegramBotClient>(httpClient
-                        => new TelegramBotClient(builder.Configuration["BotToken"], httpClient));
+                        => new TelegramBotClient(Environment.GetEnvironmentVariable("BotToken"), httpClient));
+                        //=> new TelegramBotClient(builder.Configuration["BotToken"], httpClient));
 
             builder.Services.AddHttpClient("OpenWeatherApi", c =>
             {

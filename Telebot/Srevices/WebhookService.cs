@@ -16,7 +16,8 @@ namespace Telebot.Srevices
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            var webhookAddress = $@"{_configuration["BotHostAddress"]}/api/TelegramBot";
+            //var webhookAddress = $@"{_configuration["BotHostAddress"]}/api/TelegramBot";
+            var webhookAddress = $@"{Environment.GetEnvironmentVariable("BotHostAddress")}/api/TelegramBot";
             await _botClient.SetWebhookAsync(
                 url: webhookAddress,
                 allowedUpdates: Array.Empty<UpdateType>(),
