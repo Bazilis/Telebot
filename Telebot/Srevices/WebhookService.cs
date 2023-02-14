@@ -21,6 +21,7 @@ namespace Telebot.Srevices
             await _botClient.SetWebhookAsync(
                 url: webhookAddress,
                 allowedUpdates: Array.Empty<UpdateType>(),
+                dropPendingUpdates: true,
                 cancellationToken: cancellationToken);
         }
 
