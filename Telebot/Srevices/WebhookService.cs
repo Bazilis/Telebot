@@ -27,7 +27,7 @@ namespace Telebot.Srevices
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            await _botClient.DeleteWebhookAsync(cancellationToken: cancellationToken);
+            await _botClient.DeleteWebhookAsync(dropPendingUpdates: true, cancellationToken: cancellationToken);
         }
     }
 }
