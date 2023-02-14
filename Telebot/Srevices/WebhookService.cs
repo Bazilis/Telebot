@@ -23,7 +23,6 @@ namespace Telebot.Srevices
                 allowedUpdates: Array.Empty<UpdateType>(),
                 dropPendingUpdates: true,
                 cancellationToken: cancellationToken);
-            Thread.Sleep(1000);
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
