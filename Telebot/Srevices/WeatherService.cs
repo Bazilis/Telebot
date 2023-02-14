@@ -32,7 +32,9 @@ namespace Telebot.Srevices
 
                 var weatherResponseModel = JsonConvert.DeserializeObject<CurrentWeatherApiResponseDto>(weatherResponseStr);
 
-                resultString.AppendLine(new DateTime(1970, 1, 1, 5, 0, 0, DateTimeKind.Local).AddSeconds(weatherResponseModel.Dt).ToString());
+                var weatherDate = new DateTime(1970, 1, 1, 5, 0, 0, DateTimeKind.Local).AddSeconds(weatherResponseModel.Dt);
+
+                resultString.AppendLine($"{weatherDate.Day}.{weatherDate.Month} {weatherDate.TimeOfDay}");
                 resultString.AppendLine($"Temp ----- {weatherResponseModel.Main.Temp.ToString()}");
                 resultString.AppendLine($"Pres ------- {weatherResponseModel.Main.Pressure.ToString()}");
                 resultString.AppendLine($"Hum ------ {weatherResponseModel.Main.Humidity.ToString()}");
@@ -60,7 +62,9 @@ namespace Telebot.Srevices
 
                 var airPollutionResponseModel = JsonConvert.DeserializeObject<CurrentAirPollutionApiResponseDto>(airPollutionResponseStr);
 
-                resultString.AppendLine(new DateTime(1970, 1, 1, 5, 0, 0, DateTimeKind.Utc).AddSeconds(airPollutionResponseModel.List[0].Dt).ToString());
+                var airDate = new DateTime(1970, 1, 1, 5, 0, 0, DateTimeKind.Utc).AddSeconds(airPollutionResponseModel.List[0].Dt);
+
+                resultString.AppendLine($"{airDate.Day}.{airDate.Month} {airDate.TimeOfDay}");
                 resultString.AppendLine($"Aqi --------- {airPollutionResponseModel.List[0].Main.Aqi.ToString()}");
                 resultString.AppendLine($"Co --------- {airPollutionResponseModel.List[0].Components.Co.ToString()}");
                 resultString.AppendLine($"No --------- {airPollutionResponseModel.List[0].Components.No.ToString()}");
