@@ -10,7 +10,7 @@ namespace Telebot.Handlers
         {
             switch (message.Text)
             {
-                case "/start":
+                case "v":
                     //await StartCommand.ExecuteAsync(message, botClient, userService, stateService);
                     await botClient.SendTextMessageAsync(message.Chat.Id, "=====================");
                     var weatherReport = await weatherService.GetReport();
