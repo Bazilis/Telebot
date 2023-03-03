@@ -1,6 +1,6 @@
 ﻿using Telebot.Dto;
 
-namespace Telebot.Srevices
+namespace Telebot.Serevices
 {
     public class SubscriptionService
     {

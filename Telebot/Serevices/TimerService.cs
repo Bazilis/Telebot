@@ -1,6 +1,6 @@
 ﻿using Telegram.Bot;
 
-namespace Telebot.Srevices
+namespace Telebot.Serevices
 {
     public class TimerService : BackgroundService
     {
