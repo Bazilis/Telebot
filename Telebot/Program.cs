@@ -34,6 +34,11 @@ namespace Telebot
 
             builder.Services.AddHostedService<TimerService>();
 
+            builder.Services.Configure<HostOptions>(hostOptions =>
+            {
+                hostOptions.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

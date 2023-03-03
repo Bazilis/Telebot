@@ -34,7 +34,7 @@ namespace Telebot.Serevices
 
                 var now = DateTime.UtcNow;
                 var previousTrigger = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0, now.Kind);
-                var nextTrigger = previousTrigger + TimeSpan.FromMinutes(1);
+                var nextTrigger = previousTrigger + TimeSpan.FromHours(1);
                 await Task.Delay(nextTrigger - now, stoppingToken);
             }
         }
