@@ -9,11 +9,13 @@ namespace Telebot.Srevices
     {
         private readonly ITelegramBotClient _botClient;
         private readonly WeatherService _weatherService;
+        private readonly SubscriptionService _subscriberService;
 
-        public HandleUpdateService(ITelegramBotClient botClient, WeatherService weatherService)
+        public HandleUpdateService(ITelegramBotClient botClient, WeatherService weatherService, SubscriptionService subscriberService)
         {
             _botClient = botClient;
             _weatherService = weatherService;
+            _subscriberService = subscriberService;
         }
 
         public async Task Handle(Update update)
@@ -31,7 +33,7 @@ namespace Telebot.Srevices
             switch (update.Type)
             {
                 case UpdateType.Message:
-                    await MessageHandler.HandleAsync(update.Message, _botClient, _weatherService);//, _userService, _stateService);
+                    await MessageHandler.HandleAsync(update.Message, _botClient, _weatherService, _subscriberService);//, _userService, _stateService);
                     return;
 
                 //case UpdateType.CallbackQuery:

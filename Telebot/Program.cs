@@ -16,20 +16,23 @@ namespace Telebot
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             
-            builder.Services.AddScoped<WeatherService>();
+            builder.Services.AddSingleton<WeatherService>();
+            builder.Services.AddSingleton<SubscriptionService>();
             builder.Services.AddScoped<HandleUpdateService>();
             builder.Services.AddHostedService<WebhookService>();
             builder.Services.AddHttpClient("TgWebhook")
                     .AddTypedClient<ITelegramBotClient>(httpClient
                         => new TelegramBotClient(Environment.GetEnvironmentVariable("BotToken"), httpClient));
                         //=> new TelegramBotClient(builder.Configuration["BotToken"], httpClient));
-
+            
             builder.Services.AddHttpClient("OpenWeatherApi", c =>
             {
                 //c.BaseAddress = new Uri(builder.Configuration["WebApi"]);
                 c.DefaultRequestHeaders.Add("Accept", "*/*");
                 c.DefaultRequestHeaders.Add("User-Agent", "OpenWeatherApi");
             });
+
+            builder.Services.AddHostedService<TimerService>();
 
             var app = builder.Build();
 
