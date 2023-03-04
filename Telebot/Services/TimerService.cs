@@ -1,6 +1,6 @@
 ﻿using Telegram.Bot;
 
-namespace Telebot.Serevices
+namespace Telebot.Services
 {
     public class TimerService : BackgroundService
     {
@@ -33,9 +33,9 @@ namespace Telebot.Serevices
                 }
 
                 var now = DateTime.UtcNow;
-                var previousTrigger = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0, now.Kind);
+                var previousTrigger = new DateTime(now.Year, now.Month, now.Day, now.Hour, 0, 0, now.Kind);
                 var nextTrigger = previousTrigger + TimeSpan.FromHours(1);
-                await Task.Delay(nextTrigger - now, stoppingToken);
+                await Task.Delay(nextTrigger - now, stoppingToken).ConfigureAwait(continueOnCapturedContext: false);
             }
         }
     }

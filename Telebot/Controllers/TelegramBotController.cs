@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Telebot.Serevices;
+using Telebot.Services;
 using Telegram.Bot.Types;
 
 namespace Telebot.Controllers

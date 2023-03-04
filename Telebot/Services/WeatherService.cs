@@ -3,7 +3,7 @@ using System.Net;
 using System.Text;
 using Telebot.Dto;
 
-namespace Telebot.Serevices
+namespace Telebot.Services
 {
     public class WeatherService
     {
@@ -38,7 +38,7 @@ namespace Telebot.Serevices
 
                 var airPollutionResponseModel = JsonConvert.DeserializeObject<CurrentAirPollutionApiResponseDto>(airPollutionResponseStr);
 
-                var airDate = new DateTime(1970, 1, 1, 5, 0, 0, DateTimeKind.Utc).AddSeconds(airPollutionResponseModel.List[0].Dt);
+                var airDate = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Local).AddSeconds(airPollutionResponseModel.List[0].Dt);
 
                 resultString.AppendLine($"{airDate.Day}.{airDate.Month} {airDate.TimeOfDay.ToString()}");
                 resultString.AppendLine($"Aqi --------- {airPollutionResponseModel.List[0].Main.Aqi.ToString()}");
@@ -72,7 +72,7 @@ namespace Telebot.Serevices
 
                 var weatherResponseModel = JsonConvert.DeserializeObject<CurrentWeatherApiResponseDto>(weatherResponseStr);
 
-                var weatherDate = new DateTime(1970, 1, 1, 5, 0, 0, DateTimeKind.Local).AddSeconds(weatherResponseModel.Dt);
+                var weatherDate = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Local).AddSeconds(weatherResponseModel.Dt);
 
                 resultString.AppendLine($"{weatherDate.Day}.{weatherDate.Month} {weatherDate.TimeOfDay.ToString()}");
                 resultString.AppendLine($"Temp ----- {weatherResponseModel.Main.Temp.ToString()}");

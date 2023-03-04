@@ -1,4 +1,4 @@
-﻿using Telebot.Serevices;
+﻿using Telebot.Services;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
