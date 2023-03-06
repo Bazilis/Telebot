@@ -6,9 +6,9 @@ namespace Telebot.Services
     {
         private readonly ITelegramBotClient _botClient;
         private readonly WeatherService _weatherService;
-        private readonly SubscriptionService _subscriptionService;
+        private readonly UserService _subscriptionService;
 
-        public TimerService(ITelegramBotClient botClient, WeatherService weatherService, SubscriptionService subscriptionService)
+        public TimerService(ITelegramBotClient botClient, WeatherService weatherService, UserService subscriptionService)
         {
             _botClient = botClient;
             _weatherService = weatherService;
@@ -19,15 +19,26 @@ namespace Telebot.Services
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                foreach(var subscription in _subscriptionService.Subscriptions)
+                if (_subscriptionService.Users.Any())
                 {
-                    if (subscription.SubscribersList.Any())
+                    foreach (var user in _subscriptionService.Users)
                     {
-                        var weatherReport = await _weatherService.GetReport(subscription);
-                        foreach (var subscriber in subscription.SubscribersList)
+                        if (user.Subscriptions.Any())
                         {
-                            await _botClient.SendTextMessageAsync(subscriber, $"==============>{subscription.City}", cancellationToken: stoppingToken);
-                            await _botClient.SendTextMessageAsync(subscriber, weatherReport, cancellationToken: stoppingToken);
+                            foreach(var subscription in user.Subscriptions)
+                            {
+                                string weatherReport;
+                                if (user.TimeZoneOffset == 0)
+                                {
+                                    weatherReport = await _weatherService.GetReport(subscription, subscription.TimeZoneOffset);
+                                }
+                                else
+                                {
+                                    weatherReport = await _weatherService.GetReport(subscription, user.TimeZoneOffset);
+                                }
+
+                                await _botClient.SendTextMessageAsync(user.UserId, weatherReport, cancellationToken: stoppingToken);
+                            }
                         }
                     }
                 }

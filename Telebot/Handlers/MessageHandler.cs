@@ -1,4 +1,5 @@
-﻿using Telebot.Services;
+﻿using Telebot.Dto;
+using Telebot.Services;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -6,173 +7,160 @@ namespace Telebot.Handlers
 {
     public class MessageHandler
     {
-        public static async Task HandleAsync(Message message, ITelegramBotClient botClient, WeatherService weatherService, SubscriptionService subscriberService)//, IAppUserService userService, IStateService stateService)
+        public static async Task HandleAsync(Message message, ITelegramBotClient botClient, WeatherService weatherService, UserService subscriberService)//, IAppUserService userService, IStateService stateService)
         {
             switch (message.Text)
             {
-                case "h":
-                    string availableCities = "Berlin\nGomel\nJizzakh\nKyiv\nLondon\nMadrid\nMinsk\nOdesa\nParis\nRome\nTashkent\nVilnius\nWarsaw\nWroclaw\n";
-                    await botClient.SendTextMessageAsync(message.Chat.Id, availableCities);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                case "i":
+                    //await StartCommand.ExecuteAsync(message, botClient, userService, stateService);
+                    await Info();
                     return;
                 case "be":
-                    //await StartCommand.ExecuteAsync(message, botClient, userService, stateService);
-                    await botClient.SendTextMessageAsync(message.Chat.Id, "==============>Berlin");
-                    var berlinReport = await weatherService.GetReport(subscriberService.Subscriptions.FirstOrDefault(s => s.City == "Berlin"));
-                    await botClient.SendTextMessageAsync(message.Chat.Id, berlinReport);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await GetCityReport("Berlin");
                     return;
                 case "bes":
-                    string berlinResult = subscriberService.SubscribeUnsubscribe("Berlin", message.From.Id);
-                    await botClient.SendTextMessageAsync(message.Chat.Id, berlinResult);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await SubscribeUnsubscribeСurrentUser("Berlin");
                     return;
                 case "go":
-                    await botClient.SendTextMessageAsync(message.Chat.Id, "==============>Gomel");
-                    var gomelReport = await weatherService.GetReport(subscriberService.Subscriptions.FirstOrDefault(s => s.City == "Gomel"));
-                    await botClient.SendTextMessageAsync(message.Chat.Id, gomelReport);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await GetCityReport("Gomel");
                     return;
                 case "gos":
-                    string gomelResult = subscriberService.SubscribeUnsubscribe("Gomel", message.From.Id);
-                    await botClient.SendTextMessageAsync(message.Chat.Id, gomelResult);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await SubscribeUnsubscribeСurrentUser("Gomel");
                     return;
                 case "ji":
-                    await botClient.SendTextMessageAsync(message.Chat.Id, "==============>Jizzakh");
-                    var jizzakhReport = await weatherService.GetReport(subscriberService.Subscriptions.FirstOrDefault(s => s.City == "Jizzakh"));
-                    await botClient.SendTextMessageAsync(message.Chat.Id, jizzakhReport);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await GetCityReport("Jizzakh");
                     return;
                 case "jis":
-                    string jizzakhResult = subscriberService.SubscribeUnsubscribe("Jizzakh", message.From.Id);
-                    await botClient.SendTextMessageAsync(message.Chat.Id, jizzakhResult);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await SubscribeUnsubscribeСurrentUser("Jizzakh");
                     return;
                 case "ky":
-                    await botClient.SendTextMessageAsync(message.Chat.Id, "==============>Kyiv");
-                    var kyivReport = await weatherService.GetReport(subscriberService.Subscriptions.FirstOrDefault(s => s.City == "Kyiv"));
-                    await botClient.SendTextMessageAsync(message.Chat.Id, kyivReport);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await GetCityReport("Kyiv");
                     return;
                 case "kys":
-                    string kyivResult = subscriberService.SubscribeUnsubscribe("Kyiv", message.From.Id);
-                    await botClient.SendTextMessageAsync(message.Chat.Id, kyivResult);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await SubscribeUnsubscribeСurrentUser("Kyiv");
                     return;
                 case "lo":
-                    await botClient.SendTextMessageAsync(message.Chat.Id, "==============>London");
-                    var londonReport = await weatherService.GetReport(subscriberService.Subscriptions.FirstOrDefault(s => s.City == "London"));
-                    await botClient.SendTextMessageAsync(message.Chat.Id, londonReport);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await GetCityReport("London");
                     return;
                 case "los":
-                    string londonResult = subscriberService.SubscribeUnsubscribe("London", message.From.Id);
-                    await botClient.SendTextMessageAsync(message.Chat.Id, londonResult);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await SubscribeUnsubscribeСurrentUser("London");
                     return;
                 case "ma":
-                    await botClient.SendTextMessageAsync(message.Chat.Id, "==============>Madrid");
-                    var madridReport = await weatherService.GetReport(subscriberService.Subscriptions.FirstOrDefault(s => s.City == "Madrid"));
-                    await botClient.SendTextMessageAsync(message.Chat.Id, madridReport);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await GetCityReport("Madrid");
                     return;
                 case "mas":
-                    string madridResult = subscriberService.SubscribeUnsubscribe("Madrid", message.From.Id);
-                    await botClient.SendTextMessageAsync(message.Chat.Id, madridResult);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await SubscribeUnsubscribeСurrentUser("Madrid");
                     return;
                 case "mi":
-                    await botClient.SendTextMessageAsync(message.Chat.Id, "==============>Minsk");
-                    var minskReport = await weatherService.GetReport(subscriberService.Subscriptions.FirstOrDefault(s => s.City == "Minsk"));
-                    await botClient.SendTextMessageAsync(message.Chat.Id, minskReport);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await GetCityReport("Minsk");
                     return;
                 case "mis":
-                    string minskResult = subscriberService.SubscribeUnsubscribe("Minsk", message.From.Id);
-                    await botClient.SendTextMessageAsync(message.Chat.Id, minskResult);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await SubscribeUnsubscribeСurrentUser("Minsk");
+                    return;
+                case "ni":
+                    await GetCityReport("Nizhny Novgorod");
+                    return;
+                case "nis":
+                    await SubscribeUnsubscribeСurrentUser("Nizhny Novgorod");
                     return;
                 case "od":
-                    await botClient.SendTextMessageAsync(message.Chat.Id, "==============>Odesa");
-                    var odesaReport = await weatherService.GetReport(subscriberService.Subscriptions.FirstOrDefault(s => s.City == "Odesa"));
-                    await botClient.SendTextMessageAsync(message.Chat.Id, odesaReport);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await GetCityReport("Odesa");
                     return;
                 case "ods":
-                    string odesaResult = subscriberService.SubscribeUnsubscribe("Odesa", message.From.Id);
-                    await botClient.SendTextMessageAsync(message.Chat.Id, odesaResult);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await SubscribeUnsubscribeСurrentUser("Odesa");
                     return;
                 case "pa":
-                    await botClient.SendTextMessageAsync(message.Chat.Id, "==============>Paris");
-                    var parisReport = await weatherService.GetReport(subscriberService.Subscriptions.FirstOrDefault(s => s.City == "Paris"));
-                    await botClient.SendTextMessageAsync(message.Chat.Id, parisReport);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await GetCityReport("Paris");
                     return;
                 case "pas":
-                    string parisResult = subscriberService.SubscribeUnsubscribe("Paris", message.From.Id);
-                    await botClient.SendTextMessageAsync(message.Chat.Id, parisResult);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await SubscribeUnsubscribeСurrentUser("Paris");
                     return;
                 case "ro":
-                    await botClient.SendTextMessageAsync(message.Chat.Id, "==============>Rome");
-                    var romeReport = await weatherService.GetReport(subscriberService.Subscriptions.FirstOrDefault(s => s.City == "Rome"));
-                    await botClient.SendTextMessageAsync(message.Chat.Id, romeReport);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await GetCityReport("Rome");
                     return;
                 case "ros":
-                    string romeResult = subscriberService.SubscribeUnsubscribe("Rome", message.From.Id);
-                    await botClient.SendTextMessageAsync(message.Chat.Id, romeResult);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await SubscribeUnsubscribeСurrentUser("Rome");
                     return;
                 case "ta":
-                    await botClient.SendTextMessageAsync(message.Chat.Id, "============>Tashkent");
-                    var tashkentReport = await weatherService.GetReport(subscriberService.Subscriptions.FirstOrDefault(s => s.City == "Tashkent"));
-                    await botClient.SendTextMessageAsync(message.Chat.Id, tashkentReport);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await GetCityReport("Tashkent");
                     return;
                 case "tas":
-                    string tashkentResult = subscriberService.SubscribeUnsubscribe("Tashkent", message.From.Id);
-                    await botClient.SendTextMessageAsync(message.Chat.Id, tashkentResult);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await SubscribeUnsubscribeСurrentUser("Tashkent");
                     return;
                 case "vi":
-                    await botClient.SendTextMessageAsync(message.Chat.Id, "==============>Vilnius");
-                    var vilniusReport = await weatherService.GetReport(subscriberService.Subscriptions.FirstOrDefault(s => s.City == "Vilnius"));
-                    await botClient.SendTextMessageAsync(message.Chat.Id, vilniusReport);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await GetCityReport("Vilnius");
                     return;
                 case "vis":
-                    string vilniusResult = subscriberService.SubscribeUnsubscribe("Vilnius", message.From.Id);
-                    await botClient.SendTextMessageAsync(message.Chat.Id, vilniusResult);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await SubscribeUnsubscribeСurrentUser("Vilnius");
                     return;
                 case "wa":
-                    await botClient.SendTextMessageAsync(message.Chat.Id, "==============>Warsaw");
-                    var warsawReport = await weatherService.GetReport(subscriberService.Subscriptions.FirstOrDefault(s => s.City == "Warsaw"));
-                    await botClient.SendTextMessageAsync(message.Chat.Id, warsawReport);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await GetCityReport("Warsaw");
                     return;
                 case "was":
-                    string warsawResult = subscriberService.SubscribeUnsubscribe("Warsaw", message.From.Id);
-                    await botClient.SendTextMessageAsync(message.Chat.Id, warsawResult);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await SubscribeUnsubscribeСurrentUser("Warsaw");
                     return;
                 case "wr":
-                    await botClient.SendTextMessageAsync(message.Chat.Id, "==============>Wroclaw");
-                    var wroclawReport = await weatherService.GetReport(subscriberService.Subscriptions.FirstOrDefault(s => s.City == "Wroclaw"));
-                    await botClient.SendTextMessageAsync(message.Chat.Id, wroclawReport);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await GetCityReport("Wroclaw");
                     return;
                 case "wrs":
-                    string wroclawResult = subscriberService.SubscribeUnsubscribe("Wroclaw", message.From.Id);
-                    await botClient.SendTextMessageAsync(message.Chat.Id, wroclawResult);
-                    await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+                    await SubscribeUnsubscribeСurrentUser("Wroclaw");
+                    return;
+                case "t0":
+                    await SetResetСurrentUserTimeZoneOffset(0);
+                    return;
+                case "t1":
+                    await SetResetСurrentUserTimeZoneOffset(1);
+                    return;
+                case "t2":
+                    await SetResetСurrentUserTimeZoneOffset(2);
+                    return;
+                case "t3":
+                    await SetResetСurrentUserTimeZoneOffset(3);
+                    return;
+                case "t4":
+                    await SetResetСurrentUserTimeZoneOffset(4);
+                    return;
+                case "t5":
+                    await SetResetСurrentUserTimeZoneOffset(5);
                     return;
                 default:
                     await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
                     return;
+            }
+
+            async Task Info()
+            {
+                string availableCities = "Berlin\nGomel\nJizzakh\nKyiv\nLondon\nMadrid\nMinsk\nNizhny Novgorod\nOdesa\nParis\nRome\nTashkent\nVilnius\nWarsaw\nWroclaw\n";
+                await botClient.SendTextMessageAsync(message.Chat.Id, availableCities);
+                await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+            }
+
+            async Task GetCityReport(string city)
+            {
+                var citySubscription = SubscriptionConstants.SubscriptionsList.FirstOrDefault(s => s.City == city);
+                var user = subscriberService.Users.FirstOrDefault(u => u.UserId == message.From.Id);
+                string cityReport;
+
+                if (user == default || user.TimeZoneOffset == 0)
+                    cityReport = await weatherService.GetReport(citySubscription, citySubscription.TimeZoneOffset);
+
+                cityReport = await weatherService.GetReport(citySubscription, user.TimeZoneOffset);
+                await botClient.SendTextMessageAsync(message.Chat.Id, cityReport);
+                await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+            }
+
+            async Task SubscribeUnsubscribeСurrentUser(string city)
+            {
+                string result = subscriberService.SubscribeUnsubscribeUser(message.From.Id, city);
+                await botClient.SendTextMessageAsync(message.Chat.Id, result);
+                await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
+            }
+
+            async Task SetResetСurrentUserTimeZoneOffset(int timeZoneOffset)
+            {
+                string result = subscriberService.SetResetUserTimeZoneOffset(message.From.Id, timeZoneOffset);
+                await botClient.SendTextMessageAsync(message.Chat.Id, result);
+                await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
             }
         }
     }

@@ -9,9 +9,9 @@ namespace Telebot.Services
     {
         private readonly ITelegramBotClient _botClient;
         private readonly WeatherService _weatherService;
-        private readonly SubscriptionService _subscriberService;
+        private readonly UserService _subscriberService;
 
-        public HandleUpdateService(ITelegramBotClient botClient, WeatherService weatherService, SubscriptionService subscriberService)
+        public HandleUpdateService(ITelegramBotClient botClient, WeatherService weatherService, UserService subscriberService)
         {
             _botClient = botClient;
             _weatherService = weatherService;

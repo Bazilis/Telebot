@@ -14,19 +14,19 @@ namespace Telebot.Services
             _httpClientFactory= httpClientFactory;
         }
 
-        public async Task<string> GetReport(SubscriptionDto subscription)
+        public async Task<string> GetReport(SubscriptionDto subscription, int timeZoneOffset)
         {
             var client = _httpClientFactory.CreateClient("OpenWeatherApi");
 
             var resultString = new StringBuilder();
 
-            await GetWeatherReport(client, subscription, resultString);
-            await GetAirPollutionReport(client, subscription, resultString);
+            await GetWeatherReport(client, subscription, resultString, timeZoneOffset);
+            await GetAirPollutionReport(client, subscription, resultString, timeZoneOffset);
 
             return resultString.ToString();
         }
 
-        private async Task GetAirPollutionReport(HttpClient client, SubscriptionDto subscription, StringBuilder resultString)
+        private async Task GetAirPollutionReport(HttpClient client, SubscriptionDto subscription, StringBuilder resultString, int timeZoneOffset)
         {
             var airPollutionRequest = new HttpRequestMessage(HttpMethod.Get, subscription.AirPollutionUrl);
 
@@ -38,7 +38,7 @@ namespace Telebot.Services
 
                 var airPollutionResponseModel = JsonConvert.DeserializeObject<CurrentAirPollutionApiResponseDto>(airPollutionResponseStr);
 
-                var airDate = new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(airPollutionResponseModel.List[0].Dt).ToLocalTime();
+                var airDate = new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(airPollutionResponseModel.List[0].Dt).AddHours(timeZoneOffset);
 
                 resultString.AppendLine($"{airDate.Day}.{airDate.Month} {airDate.TimeOfDay.ToString()}");
                 resultString.AppendLine($"Aqi --------- {airPollutionResponseModel.List[0].Main.Aqi.ToString()}");
@@ -60,7 +60,7 @@ namespace Telebot.Services
             }
         }
 
-        private async Task GetWeatherReport(HttpClient client, SubscriptionDto subscription, StringBuilder resultString)
+        private async Task GetWeatherReport(HttpClient client, SubscriptionDto subscription, StringBuilder resultString, int timeZoneOffset)
         {
             var weatherRequest = new HttpRequestMessage(HttpMethod.Get, subscription.WeatherUrl);
 
@@ -72,8 +72,9 @@ namespace Telebot.Services
 
                 var weatherResponseModel = JsonConvert.DeserializeObject<CurrentWeatherApiResponseDto>(weatherResponseStr);
 
-                var weatherDate = new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(weatherResponseModel.Dt).ToLocalTime();
+                var weatherDate = new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(weatherResponseModel.Dt).AddHours(timeZoneOffset);
 
+                resultString.AppendLine($"==============>{subscription.City}");
                 resultString.AppendLine($"{weatherDate.Day}.{weatherDate.Month} {weatherDate.TimeOfDay.ToString()}");
                 resultString.AppendLine($"Temp ----- {weatherResponseModel.Main.Temp.ToString()}");
                 resultString.AppendLine($"Feels ------ {weatherResponseModel.Main.Feels_like.ToString()}");

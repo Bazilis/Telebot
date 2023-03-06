@@ -17,7 +17,7 @@ namespace Telebot
             builder.Services.AddSwaggerGen();
             
             builder.Services.AddSingleton<WeatherService>();
-            builder.Services.AddSingleton<SubscriptionService>();
+            builder.Services.AddSingleton<UserService>();
             builder.Services.AddScoped<HandleUpdateService>();
             builder.Services.AddHostedService<WebhookService>();
             builder.Services.AddHttpClient("TgWebhook")
