@@ -143,8 +143,8 @@ namespace Telebot.Handlers
 
                 if (user == default || user.TimeZoneOffset == 0)
                     cityReport = await weatherService.GetReport(citySubscription, citySubscription.TimeZoneOffset);
-
-                cityReport = await weatherService.GetReport(citySubscription, user.TimeZoneOffset);
+                else
+                    cityReport = await weatherService.GetReport(citySubscription, user.TimeZoneOffset);
                 await botClient.SendTextMessageAsync(message.Chat.Id, cityReport);
                 await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
             }
