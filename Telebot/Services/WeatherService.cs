@@ -11,7 +11,7 @@ namespace Telebot.Services
 
         public WeatherService(IHttpClientFactory httpClientFactory)
         {
-            _httpClientFactory= httpClientFactory;
+            _httpClientFactory = httpClientFactory;
         }
 
         public async Task<string> GetReport(SubscriptionDto subscription, int timeZoneOffset)
@@ -41,15 +41,15 @@ namespace Telebot.Services
                 var airDate = new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(airPollutionResponseModel.List[0].Dt).AddHours(timeZoneOffset);
 
                 resultString.AppendLine($"{airDate.Day}.{airDate.Month} {airDate.TimeOfDay.ToString()}");
-                resultString.AppendLine($"Aqi --------- {airPollutionResponseModel.List[0].Main.Aqi.ToString()}");
-                resultString.AppendLine($"Co --------- {airPollutionResponseModel.List[0].Components.Co.ToString()}");
-                resultString.AppendLine($"No --------- {airPollutionResponseModel.List[0].Components.No.ToString()}");
-                resultString.AppendLine($"No2 ------- {airPollutionResponseModel.List[0].Components.No2.ToString()}");
+                resultString.AppendLine($"AQI --------- {airPollutionResponseModel.List[0].Main.Aqi.ToString()}");
+                resultString.AppendLine($"NO2 ------- {airPollutionResponseModel.List[0].Components.No2.ToString()}");
+                resultString.AppendLine($"SO2 -------- {airPollutionResponseModel.List[0].Components.So2.ToString()}");
+                resultString.AppendLine($"PM2.5 --- {airPollutionResponseModel.List[0].Components.Pm2_5.ToString()}");
+                resultString.AppendLine($"PM10 ----- {airPollutionResponseModel.List[0].Components.Pm10.ToString()}");
                 resultString.AppendLine($"O3 --------- {airPollutionResponseModel.List[0].Components.O3.ToString()}");
-                resultString.AppendLine($"So2 -------- {airPollutionResponseModel.List[0].Components.So2.ToString()}");
-                resultString.AppendLine($"Pm2_5 --- {airPollutionResponseModel.List[0].Components.Pm2_5.ToString()}");
-                resultString.AppendLine($"Pm10 ----- {airPollutionResponseModel.List[0].Components.Pm10.ToString()}");
-                resultString.AppendLine($"Nh3 ------- {airPollutionResponseModel.List[0].Components.Nh3.ToString()}");
+                resultString.AppendLine($"CO --------- {airPollutionResponseModel.List[0].Components.Co.ToString()}");
+                resultString.AppendLine($"NO --------- {airPollutionResponseModel.List[0].Components.No.ToString()}");
+                resultString.AppendLine($"NH3 ------- {airPollutionResponseModel.List[0].Components.Nh3.ToString()}");
                 resultString.AppendLine();
             }
 
@@ -76,12 +76,12 @@ namespace Telebot.Services
 
                 resultString.AppendLine($"==============>{subscription.City}");
                 resultString.AppendLine($"{weatherDate.Day}.{weatherDate.Month} {weatherDate.TimeOfDay.ToString()}");
-                resultString.AppendLine($"Temp ----- {weatherResponseModel.Main.Temp.ToString()}");
+                resultString.AppendLine($"Temp ----- {Math.Round(weatherResponseModel.Main.Temp).ToString()}");
                 resultString.AppendLine($"Feels ------ {weatherResponseModel.Main.Feels_like.ToString()}");
                 resultString.AppendLine($"Pres ------- {weatherResponseModel.Main.Pressure.ToString()}");
                 resultString.AppendLine($"Hum ------ {weatherResponseModel.Main.Humidity.ToString()}");
                 resultString.AppendLine($"Speed ---- {weatherResponseModel.Wind.Speed.ToString()}");
-                resultString.AppendLine($"Deg -------- {weatherResponseModel.Wind.Deg.ToString()}");
+                resultString.AppendLine($"Degree ----- {weatherResponseModel.Wind.Deg.ToString()}");
                 resultString.AppendLine($"Clouds --- {weatherResponseModel.Clouds.All.ToString()}");
                 resultString.AppendLine();
             }
