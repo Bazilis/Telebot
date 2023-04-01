@@ -2,17 +2,34 @@
 
 namespace Telebot.Services
 {
-    public class UserService
+    public class UserStateService
     {
-        public List<UserDto> Users { get; set; } = new();
+        private List<UserStateDto> UsersStates { get; set; } = new();
+
+        public void AddUserState(UserStateDto state)
+        {
+            UsersStates.Add(state);
+        }
+
+        public bool HasUsersStatesAny()
+        {
+            return UsersStates.Any();
+        }
+
+        public List<UserStateDto> GetAll() => UsersStates;
+
+        public UserStateDto GetUserStateByUserIdAsync(long userId)
+        {
+            return UsersStates.FirstOrDefault(x => x.UserId == userId);
+        }
 
         public string SetResetUserTimeZoneOffset(long userId, int offset)
         {
-            var user = Users.FirstOrDefault(u => u.UserId == userId);
+            var userState = GetUserStateByUserIdAsync(userId);
 
-            if (user == default)
+            if (userState == default)
             {
-                Users.Add(new UserDto
+                UsersStates.Add(new UserStateDto
                 {
                     UserId = userId,
                     TimeZoneOffset = offset
@@ -21,14 +38,14 @@ namespace Telebot.Services
                 return $"Welcome, time zone set to {offset}";
             }
 
-            if (user.TimeZoneOffset == offset)
+            if (userState.TimeZoneOffset == offset)
             {
-                user.TimeZoneOffset = 0;
+                userState.TimeZoneOffset = 0;
                 return $"Time zone reset";
             }
             else
             {
-                user.TimeZoneOffset = offset;
+                userState.TimeZoneOffset = offset;
                 return $"Time zone set to {offset}";
             }
         }
@@ -39,11 +56,11 @@ namespace Telebot.Services
 
             if (subscription == default) return "Сity not found";
 
-            var user = Users.FirstOrDefault(u => u.UserId == userId);
+            var userState = GetUserStateByUserIdAsync(userId);
 
-            if (user == default)
+            if (userState == default)
             {
-                Users.Add(new UserDto
+                UsersStates.Add(new UserStateDto
                 {
                     UserId = userId,
                     Subscriptions = new List<SubscriptionDto> { subscription }
@@ -52,16 +69,16 @@ namespace Telebot.Services
                 return $"Welcome, you subscribed to {subscription.City}";
             }
 
-            var userSubscription = user.Subscriptions.FirstOrDefault(s => s.City == city);
+            var userSubscription = userState.Subscriptions.FirstOrDefault(s => s.City == city);
 
             if (userSubscription == default)
             {
-                user.Subscriptions.Add(subscription);
+                userState.Subscriptions.Add(subscription);
                 return $"You subscribed to {subscription.City}";
             }
             else
             {
-                user.Subscriptions.Remove(userSubscription);
+                userState.Subscriptions.Remove(userSubscription);
                 return $"You unsubscribed from {subscription.City}";
             }
         }

@@ -17,7 +17,7 @@ namespace Telebot
             builder.Services.AddSwaggerGen();
             
             builder.Services.AddSingleton<WeatherService>();
-            builder.Services.AddSingleton<UserService>();
+            builder.Services.AddSingleton<UserStateService>();
             builder.Services.AddScoped<HandleUpdateService>();
             builder.Services.AddHostedService<WebhookService>();
             builder.Services.AddHttpClient("TgWebhook")
@@ -32,7 +32,7 @@ namespace Telebot
                 c.DefaultRequestHeaders.Add("User-Agent", "OpenWeatherApi");
             });
 
-            builder.Services.AddHostedService<TimerService>();
+            builder.Services.AddHostedService<DataSenderService>();
 
             builder.Services.Configure<HostOptions>(hostOptions =>
             {

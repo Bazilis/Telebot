@@ -21,6 +21,20 @@
                 },
                 new SubscriptionDto
                 {
+                    City = "Hurghada",
+                    TimeZoneOffset = 3,
+                    WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Hurghada&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
+                    AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=27.2574&lon=33.8129&appid={Environment.GetEnvironmentVariable("ApiKey")}"
+                },
+                new SubscriptionDto
+                {
+                    City = "Istanbul",
+                    TimeZoneOffset = 3,
+                    WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Istanbul&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
+                    AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=41.0351&lon=28.9833&appid={Environment.GetEnvironmentVariable("ApiKey")}"
+                },
+                new SubscriptionDto
+                {
                     City = "Jizzakh",
                     TimeZoneOffset = 5,
                     WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Jizzakh&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
@@ -28,8 +42,15 @@
                 },
                 new SubscriptionDto
                 {
-                    City = "Kyiv",
+                    City = "Kaliningrad",
                     TimeZoneOffset = 2,
+                    WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Kaliningrad&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
+                    AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=54.7065&lon=20.511&appid={Environment.GetEnvironmentVariable("ApiKey")}"
+                },
+                new SubscriptionDto
+                {
+                    City = "Kyiv",
+                    TimeZoneOffset = 3,
                     WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Kyiv&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
                     AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=50.4333&lon=30.5167&appid={Environment.GetEnvironmentVariable("ApiKey")}"
                 },
@@ -49,10 +70,24 @@
                 },
                 new SubscriptionDto
                 {
+                    City = "Milan",
+                    TimeZoneOffset = 2,
+                    WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Milan&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
+                    AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=45.4643&lon=9.1895&appid={Environment.GetEnvironmentVariable("ApiKey")}"
+                },
+                new SubscriptionDto
+                {
                     City = "Minsk",
                     TimeZoneOffset = 3,
                     WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Minsk&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
                     AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=53.9&lon=27.5667&appid={Environment.GetEnvironmentVariable("ApiKey")}"
+                },
+                new SubscriptionDto
+                {
+                    City = "Nicosia",
+                    TimeZoneOffset = 3,
+                    WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Nicosia&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
+                    AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=35.1667&lon=33.3667&appid={Environment.GetEnvironmentVariable("ApiKey")}"
                 },
                 new SubscriptionDto
                 {
@@ -64,7 +99,7 @@
                 new SubscriptionDto
                 {
                     City = "Odesa",
-                    TimeZoneOffset = 2,
+                    TimeZoneOffset = 3,
                     WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Odesa&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
                     AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=46.4775&lon=30.7326&appid={Environment.GetEnvironmentVariable("ApiKey")}"
                 },
@@ -84,10 +119,24 @@
                 },
                 new SubscriptionDto
                 {
+                    City = "Sharm el Sheikh",
+                    TimeZoneOffset = 2,
+                    WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Sharm%20el%20Sheikh&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
+                    AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=27.8518&lon=34.305&appid={Environment.GetEnvironmentVariable("ApiKey")}"
+                },
+                new SubscriptionDto
+                {
                     City = "Tashkent",
                     TimeZoneOffset = 5,
                     WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Tashkent&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
                     AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=41.2646&lon=69.2163&appid={Environment.GetEnvironmentVariable("ApiKey")}"
+                },
+                new SubscriptionDto
+                {
+                    City = "Tbilisi",
+                    TimeZoneOffset = 4,
+                    WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Tbilisi&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
+                    AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=41.6941&lon=44.8337&appid={Environment.GetEnvironmentVariable("ApiKey")}"
                 },
                 new SubscriptionDto
                 {
@@ -109,7 +158,7 @@
                     TimeZoneOffset = 2,
                     WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Wroclaw&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
                     AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=51.1&lon=17.0333&appid={Environment.GetEnvironmentVariable("ApiKey")}"
-                },  
+                }  
             };
     }
 }
