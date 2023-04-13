@@ -20,7 +20,7 @@ namespace Telebot.Services
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await SendDataAsync(stoppingToken);
+                await SendDataAsync();
 
                 var now = DateTime.UtcNow;
                 var previousTrigger = new DateTime(now.Year, now.Month, now.Day, now.Hour, 0, 0, now.Kind);
@@ -29,18 +29,19 @@ namespace Telebot.Services
             }
         }
 
-        private async Task SendDataAsync(CancellationToken cancellationToken)
+        private async Task SendDataAsync()
         {
-            if (_userStateService.HasUsersStatesAny())
+            if (_userStateService.HasAnyUsersStates())
             {
-                foreach (var userState in _userStateService.GetAll())
+                var userStates = _userStateService.GetAll();
+                foreach (var userState in userStates)
                 {
                     if (userState.Subscriptions.Any())
                     {
                         foreach (var subscription in userState.Subscriptions)
                         {
                             await SendCurrentDataSubscriptionCommand.ExecuteAsync(
-                                subscription, _botClient, userState, _weatherService, cancellationToken);
+                                subscription, _botClient, userState, _weatherService);
                         }
                     }
                 }

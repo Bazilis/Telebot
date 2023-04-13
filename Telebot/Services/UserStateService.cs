@@ -1,40 +1,80 @@
-﻿using Telebot.Dto;
+﻿using System.Collections.Concurrent;
+using Telebot.Constants;
+using Telebot.Dto;
 
 namespace Telebot.Services
 {
     public class UserStateService
     {
-        private List<UserStateDto> UsersStates { get; set; } = new();
+        private readonly ConcurrentDictionary<long, UserStateDto> _usersStates = new();
 
         public void AddUserState(UserStateDto state)
         {
-            UsersStates.Add(state);
+            _usersStates.TryAdd(state.UserId, state);
         }
 
-        public bool HasUsersStatesAny()
+        public bool HasAnyUsersStates()
         {
-            return UsersStates.Any();
+            return !_usersStates.IsEmpty;
         }
 
-        public List<UserStateDto> GetAll() => UsersStates;
-
-        public UserStateDto GetUserStateByUserIdAsync(long userId)
+        public ICollection<UserStateDto> GetAll()
         {
-            return UsersStates.FirstOrDefault(x => x.UserId == userId);
+            return _usersStates.Values;
+        }
+
+        public ICollection<long> GetAllIds()
+        {
+            return _usersStates.Keys;
+        }
+
+        public UserStateDto GetUserStateByUserId(long userId)
+        {
+            _usersStates.TryGetValue(userId, out var userState);
+            return userState;
+        }
+
+        public string SetResetShortMode(long userId)
+        {
+            _usersStates.TryGetValue(userId, out var userState);
+
+            if (userState == null)
+            {
+                userState = new UserStateDto
+                {
+                    UserId = userId,
+                    IsShortMode = true
+                };
+                _usersStates.TryAdd(userId, userState);
+
+                return $"Welcome, short mode on";
+            }
+
+            if (userState.IsShortMode)
+            {
+                userState.IsShortMode = false;
+                userState.Subscriptions.ForEach(x => { x.FirstMessageId = 0; x.SecondMessageId = 0; });
+                return $"Short mode off";
+            }
+            else
+            {
+                userState.IsShortMode = true;
+                return $"Short mode on";
+            }
         }
 
         public string SetResetUserTimeZoneOffset(long userId, int offset)
         {
-            var userState = GetUserStateByUserIdAsync(userId);
+            _usersStates.TryGetValue(userId, out var userState);
 
-            if (userState == default)
+            if (userState == null)
             {
-                UsersStates.Add(new UserStateDto
+                userState = new UserStateDto
                 {
                     UserId = userId,
                     TimeZoneOffset = offset
-                });
-
+                };
+                _usersStates.TryAdd(userId, userState);
                 return $"Welcome, time zone set to {offset}";
             }
 
@@ -54,24 +94,24 @@ namespace Telebot.Services
         {
             var subscription = SubscriptionConstants.SubscriptionsList.FirstOrDefault(s => s.City == city);
 
-            if (subscription == default) return "Сity not found";
+            if (subscription == null) return "City not found";
 
-            var userState = GetUserStateByUserIdAsync(userId);
+            _usersStates.TryGetValue(userId, out var userState);
 
-            if (userState == default)
+            if (userState == null)
             {
-                UsersStates.Add(new UserStateDto
+                userState = new UserStateDto
                 {
                     UserId = userId,
                     Subscriptions = new List<SubscriptionDto> { subscription }
-                });
-
+                };
+                _usersStates.TryAdd(userId, userState);
                 return $"Welcome, you subscribed to {subscription.City}";
             }
 
             var userSubscription = userState.Subscriptions.FirstOrDefault(s => s.City == city);
 
-            if (userSubscription == default)
+            if (userSubscription == null)
             {
                 userState.Subscriptions.Add(subscription);
                 return $"You subscribed to {subscription.City}";

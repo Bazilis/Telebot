@@ -9,19 +9,19 @@ namespace Telebot.Commands
 {
     public class StartCommand
     {
-        static readonly List<InlineKeyboardButton> buttons = new()
+        static readonly InlineKeyboardButton[] buttons = new InlineKeyboardButton[]
         {
-            InlineKeyboardButton.WithCallbackData("Get Current Data", "Get Current Data"),
+            InlineKeyboardButton.WithCallbackData("Current data", "Current data"),
             InlineKeyboardButton.WithCallbackData("Subscriptions", "Subscriptions"),
-            InlineKeyboardButton.WithCallbackData("Air Quality Info", "Air Quality Info"),
-            InlineKeyboardButton.WithCallbackData("Select timezone", "Select timezone")
+            InlineKeyboardButton.WithCallbackData("Time zone", "Time zone"),
+            InlineKeyboardButton.WithCallbackData("Information", "Information")
         };
 
         public static async Task ExecuteAsync(Message message, ITelegramBotClient botClient, UserStateService userStateService)
         {
             await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
 
-            var userState = userStateService.GetUserStateByUserIdAsync(message.From.Id);
+            var userState = userStateService.GetUserStateByUserId(message.From.Id);
 
             if (userState == null)
             {
@@ -29,34 +29,29 @@ namespace Telebot.Commands
                 userStateService.AddUserState(userState);
             }
 
-            var inlineKeyboard = KeyboardBuilder.BuildInLineKeyboard(buttons, 2);
+            var inlineKeyboard = KeyboardBuilder.BuildInLineKeyboard(buttons, 3);
             var responce = await botClient.SendTextMessageAsync(chatId: message.From.Id,
-                                                 text: "Select action ===>>>",
+                                                 text: "Select an action:",
                                                  replyMarkup: inlineKeyboard);
 
             userState.LastCommand = "/start";
-            userState.MessageId = responce.MessageId;
             userState.UserState = UserStateEnum.SelectingAction;
         }
 
         public static async Task ExecuteAsync(CallbackQuery callback, ITelegramBotClient botClient, UserStateDto userState)
         {
-            var inlineKeyboard = KeyboardBuilder.BuildInLineKeyboard(buttons, 2);
+            var inlineKeyboard = KeyboardBuilder.BuildInLineKeyboard(buttons, 3);
 
-            if (callback.Message.Text == "Select action ===>>>")
+            if (callback.Message.Text == "Select an action:")
             {
                 await botClient.AnswerCallbackQueryAsync(callback.Id, "OK");
-
-                userState.MessageId = callback.Message.MessageId;
             }
             else
             {
                 var responce = await botClient.EditMessageTextAsync(chatId: callback.From.Id,
                                              messageId: callback.Message.MessageId,
-                                             text: "Select action ===>>>",
+                                             text: "Select an action:",
                                              replyMarkup: inlineKeyboard);
-
-                userState.MessageId = responce.MessageId;
             }
         }
     }

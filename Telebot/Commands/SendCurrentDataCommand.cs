@@ -1,4 +1,4 @@
-﻿using Telebot.Dto;
+﻿using Telebot.Constants;
 using Telebot.Services;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -9,10 +9,8 @@ namespace Telebot.Commands
     {
         public static async Task ExecuteAsync(CallbackQuery callback, ITelegramBotClient botClient, UserStateService userStateService, WeatherService weatherService)
         {
-            await botClient.SendChatActionAsync(callback.From.Id, Telegram.Bot.Types.Enums.ChatAction.Typing);
-
             var citySubscription = SubscriptionConstants.SubscriptionsList.FirstOrDefault(s => s.City == callback.Data);
-            var userState = userStateService.GetUserStateByUserIdAsync(callback.From.Id);
+            var userState = userStateService.GetUserStateByUserId(callback.From.Id);
 
             string cityReport = await weatherService.GetReport(citySubscription, userState);
 

@@ -10,7 +10,7 @@ namespace Telebot.Handlers
     {
         public static async Task HandleAsync(CallbackQuery callback, ITelegramBotClient botClient, UserStateService userStateService, WeatherService weatherService)
         {
-            var userState = userStateService.GetUserStateByUserIdAsync(callback.From.Id);
+            var userState = userStateService.GetUserStateByUserId(callback.From.Id);
 
             if (userState == null)
             {
@@ -49,7 +49,7 @@ namespace Telebot.Handlers
                     userState.LastCommand = callback.Data;
                     switch (callback.Data)
                     {
-                        case "Get Current Data":
+                        case "Current data":
                             await SendCitiesCommand.ExecuteAsync(callback, botClient);
                             userState.UserState = UserStateEnum.SelectingCityForCurrentData;
                             return;
@@ -59,14 +59,14 @@ namespace Telebot.Handlers
                             userState.UserState = UserStateEnum.SelectingCityForSubscription;
                             return;
 
-                        case "Air Quality Info":
-                            await SendAirQualityInfoCommand.ExecuteAsync(callback, botClient);
-                            userState.UserState = UserStateEnum.NoState;
-                            return;
-
-                        case "Select timezone":
+                        case "Time zone":
                             await SendTimezonesCommand.ExecuteAsync(callback, botClient, userState);
                             userState.UserState = UserStateEnum.SelectingTimezone;
+                            return;
+
+                        case "Information":
+                            await SendInformationCommand.ExecuteAsync(callback, botClient);
+                            userState.UserState = UserStateEnum.NoState;
                             return;
 
                         default:
@@ -81,17 +81,24 @@ namespace Telebot.Handlers
                     return;
 
                 case UserStateEnum.SelectingCityForSubscription:
-                    SubscribeUserToCityCommand.ExecuteAsync(callback, userStateService);
-                    await SendCitiesSubscriptionsCommand.ExecuteAsync(callback, botClient, userStateService);
                     userState.LastCommand = callback.Data;
-                    userState.UserState = UserStateEnum.SelectingCityForSubscription;
-                    return;
+                    switch (callback.Data)
+                    {
+                        case "Short mode":
+                            SetShortModeCommand.Execute(callback, userStateService);
+                            await SendCitiesSubscriptionsCommand.ExecuteAsync(callback, botClient, userStateService);
+                            return;
+
+                        default:
+                            SubscribeUserToCityCommand.Execute(callback, userStateService);
+                            await SendCitiesSubscriptionsCommand.ExecuteAsync(callback, botClient, userStateService);
+                            return;
+                    }
 
                 case UserStateEnum.SelectingTimezone:
-                    SetUserTimezoneCommand.ExecuteAsync(callback, userStateService);
+                    SetUserTimezoneCommand.Execute(callback, userStateService);
                     await SendTimezonesCommand.ExecuteAsync(callback, botClient, userState);
                     userState.LastCommand = callback.Data;
-                    userState.UserState = UserStateEnum.SelectingTimezone;
                     return;
             }
         }

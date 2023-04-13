@@ -1,4 +1,5 @@
-﻿using Telebot.Dto;
+﻿using Telebot.Constants;
+using Telebot.Dto;
 using Telebot.Helpers;
 using Telebot.Services;
 using Telegram.Bot;
@@ -11,24 +12,31 @@ namespace Telebot.Commands
     {
         public static async Task ExecuteAsync(CallbackQuery callback, ITelegramBotClient botClient, UserStateService userStateService)
         {
-            var allCities = SubscriptionConstants.SubscriptionsList.Select(x => x.City);
-            var userSubscribeCities = userStateService.GetUserStateByUserIdAsync(callback.From.Id).Subscriptions.Select(x => x.City);
+            var allCities = SubscriptionConstants.SubscriptionsList.Select(x => x.City).ToArray();
 
-            var buttons = new List<InlineKeyboardButton>();
-            foreach (var city in allCities)
+            var userState = userStateService.GetUserStateByUserId(callback.From.Id);
+
+            var userSubscribeCities = userState.Subscriptions.Select(x => x.City);
+
+            var buttons = new InlineKeyboardButton[allCities.Length + 1];
+
+            for(int i = 0; i < allCities.Length; i++)
             {
-                if(userSubscribeCities.Any(x => x == city))
-                    buttons.Add(InlineKeyboardButton.WithCallbackData($"{city} ✅", city));
-                else
-                    buttons.Add(InlineKeyboardButton.WithCallbackData($"{city}", city));
+                buttons[i] = userSubscribeCities.Any(x => x == allCities[i])
+                    ? InlineKeyboardButton.WithCallbackData($"{allCities[i]} ✅", allCities[i])
+                    : InlineKeyboardButton.WithCallbackData($"{allCities[i]}", allCities[i]);
             }
+
+            buttons[^1] = userState.IsShortMode
+                ? InlineKeyboardButton.WithCallbackData("SHORT MODE ✅", "Short mode")
+                : InlineKeyboardButton.WithCallbackData("SHORT MODE", "Short mode");
 
             var backButton = Tuple.Create(UserStateEnum.NoState, "Back");
 
             var inlineKeyboard = KeyboardBuilder.BuildInLineKeyboard(buttons, 2, backButton);
             await botClient.EditMessageTextAsync(chatId: callback.From.Id,
                                                  messageId: callback.Message.MessageId,
-                                                 text: "Select a city to subscribe ===>>>",
+                                                 text: "Select a city to subscribe:",
                                                  replyMarkup: inlineKeyboard);
         }
     }

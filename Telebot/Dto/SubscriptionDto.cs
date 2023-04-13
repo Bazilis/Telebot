@@ -6,6 +6,8 @@
         public int TimeZoneOffset { get; set; }
         public string? WeatherUrl { get; set; }
         public string? AirPollutionUrl { get; set; }
+        public int FirstMessageId { get; set; }
+        public int SecondMessageId { get; set; }
         internal CurrentAirPollutionApiResponseDto? LastAirPollutionApiResponse { get; set; }
         internal CurrentWeatherApiResponseDto? LastCurrentWeatherApiResponse { get; set; }
     }

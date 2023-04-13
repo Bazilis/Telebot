@@ -5,45 +5,67 @@ namespace Telebot.Helpers
 {
     public class KeyboardBuilder
     {
-        public static InlineKeyboardMarkup BuildInLineKeyboard(List<InlineKeyboardButton> buttons, int totalColumns, Tuple<UserStateEnum, string>? backButton = null)
+        public static InlineKeyboardMarkup BuildInLineKeyboard(InlineKeyboardButton[] buttons, int totalColumns, Tuple<UserStateEnum, string>? backButton = null)
         {
-            int rowLength = 0;
-            var row = new List<InlineKeyboardButton>();
-            var rows = new List<List<InlineKeyboardButton>>();
+            InlineKeyboardButton[][] buttonRows;
+            int buttonRowsCount;
+            int remainder = buttons.Length % totalColumns;
 
-            foreach (var button in buttons)
+            if (remainder == 0)
             {
-                row.Add(button);
-                rowLength++;
+                buttonRowsCount = buttons.Length / totalColumns;
+                // additional row for "back" and "close" buttons
+                buttonRows = new InlineKeyboardButton[buttonRowsCount + 1][];
 
-                if (rowLength >= totalColumns)
+                for (int i = 0; i < buttonRowsCount; i++)
                 {
-                    rows.Add(row);
-                    rowLength = 0;
-                    row = new List<InlineKeyboardButton>();
+                    buttonRows[i] = new InlineKeyboardButton[totalColumns];
+                    for (int j = 0; j < totalColumns; j++)
+                    {
+                        buttonRows[i][j] = buttons[i * totalColumns + j];
+                    }
                 }
-            }
-            if (rowLength > 0)
-                rows.Add(row);
-
-
-            if (backButton != null)
-            {
-                rows.Add(new List<InlineKeyboardButton>
-                {
-                    InlineKeyboardButton.WithCallbackData("<<<=== back", $"data:{backButton.Item1}:{backButton.Item2}"),
-                    InlineKeyboardButton.WithCallbackData("close [X]", $"data:{UserStateEnum.NoState}:Close")
-                });
             }
             else
             {
-                rows.Add(new List<InlineKeyboardButton>
+                // additional row for remainder
+                buttonRowsCount = (buttons.Length / totalColumns) + 1;
+                // additional row for "back" and "close" buttons
+                buttonRows = new InlineKeyboardButton[buttonRowsCount + 1][];
+
+                for (int i = 0; i < buttonRowsCount - 1; i++)
                 {
-                    InlineKeyboardButton.WithCallbackData("close [X]", $"data:{UserStateEnum.NoState}:Close")
-                });
+                    buttonRows[i] = new InlineKeyboardButton[totalColumns];
+                    for (int j = 0; j < totalColumns; j++)
+                    {
+                        buttonRows[i][j] = buttons[i * totalColumns + j];
+                    }
+                }
+
+                buttonRows[buttonRowsCount - 1] = new InlineKeyboardButton[remainder];
+                for (int j = 0; j < remainder; j++)
+                {
+                    buttonRows[buttonRowsCount - 1][j] = buttons[buttons.Length - remainder + j];
+                }
             }
 
-            return new InlineKeyboardMarkup(rows);
+            if (backButton != null)
+            {
+                buttonRows[buttonRowsCount] = new InlineKeyboardButton[]
+                {
+                    InlineKeyboardButton.WithCallbackData("⬅ back", $"data:{backButton.Item1}:{backButton.Item2}"),
+                    InlineKeyboardButton.WithCallbackData("close ❌", $"data:{UserStateEnum.NoState}:Close")
+                };
+            }
+            else
+            {
+                buttonRows[buttonRowsCount] = new InlineKeyboardButton[]
+                {
+                    InlineKeyboardButton.WithCallbackData("close ❌", $"data:{UserStateEnum.NoState}:Close")
+                };
+            }
+
+            return buttonRows;
         }
     }
 }
