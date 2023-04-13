@@ -33,6 +33,7 @@ namespace Telebot
             });
 
             builder.Services.AddHostedService<DataSenderService>();
+            builder.Services.AddHostedService<AwakeService>();
 
             var app = builder.Build();
 
