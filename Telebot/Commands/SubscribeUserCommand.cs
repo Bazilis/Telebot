@@ -13,7 +13,7 @@ namespace Telebot.Commands
             await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
 
             var userStates = userStateService.GetAll().ToArray();
-            if (userStates[^1].UserId == message.From.Id)
+            if (userStates[0].UserId == message.From.Id)
             {
                 var userState = userStates.FirstOrDefault(x => x.UserId == long.Parse(serviceParams[0]));
 
