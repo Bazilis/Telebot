@@ -33,7 +33,6 @@ namespace Telebot
             });
 
             builder.Services.AddHostedService<DataSenderService>();
-            builder.Services.AddHostedService<AwakeService>();
 
             var app = builder.Build();
 
@@ -44,7 +43,7 @@ namespace Telebot
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseAuthorization();
 

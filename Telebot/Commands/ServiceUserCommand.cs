@@ -11,7 +11,7 @@ namespace Telebot.Commands
             await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
 
             var userStates = userStateService.GetAll().ToArray();
-            if (userStates[0].UserId == message.From.Id)
+            if (userStates[^1].UserId == message.From.Id)
             {
                 string str = $"Total >>> {userStates.Length}\n\n";
                 foreach (var userState in userStates)
