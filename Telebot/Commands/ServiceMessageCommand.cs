@@ -11,7 +11,7 @@ namespace Telebot.Commands
             await botClient.DeleteMessageAsync(message.From.Id, message.MessageId);
 
             var allIds = userStateService.GetAllIds().ToArray();
-            if (message.From.Id ==  long.Parse(Environment.GetEnvironmentVariable("Id")))
+            if (message.From.Id == long.Parse(Environment.GetEnvironmentVariable("Id")))
             {
                 var id = allIds.FirstOrDefault(x => x == long.Parse(serviceParams[0]));
 

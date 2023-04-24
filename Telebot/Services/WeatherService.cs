@@ -107,6 +107,19 @@ namespace Telebot.Services
                         subscription.LastCurrentWeatherApiResponse = weatherResponseModel;
                         BuildCurrentWeatherReportResultString(weatherResponseModel, subscription.LastCurrentWeatherApiResponse, resultString);
                     }
+
+                    if (weatherDate.Hour != 0)
+                    {
+                        subscription.TempDaySum += weatherResponseModel.Main.Temp;
+                        subscription.HourCounter++;
+                    }
+                    else
+                    {
+                        if(subscription.HourCounter != 0)
+                            resultString.AppendLine($"{WeatherStringParams[7]} {subscription.TempDaySum / subscription.HourCounter}");
+                        subscription.TempDaySum = weatherResponseModel.Main.Temp;
+                        subscription.HourCounter = 1;
+                    }
                 }
                 else
                 {
@@ -132,6 +145,8 @@ namespace Telebot.Services
             CurrentAirPollutionApiResponseDto lastCurrentAirPollutionApiResponse,
             StringBuilder resultString)
         {
+            resultString.AppendLine();
+
             char symbol = currentAirPollutionApiResponse.List[0].Main.Aqi > lastCurrentAirPollutionApiResponse.List[0].Main.Aqi ? UP : currentAirPollutionApiResponse.List[0].Main.Aqi == lastCurrentAirPollutionApiResponse.List[0].Main.Aqi ? LINE : DOWN;
             resultString.AppendLine($"{AirStringParams[0]} {currentAirPollutionApiResponse.List[0].Main.Aqi}  {symbol}");
 
@@ -185,8 +200,6 @@ namespace Telebot.Services
 
             symbol = currentWeatherApiResponse.Clouds.All > lastCurrentWeatherApiResponse.Clouds.All ? UP : currentWeatherApiResponse.Clouds.All == lastCurrentWeatherApiResponse.Clouds.All ? LINE : DOWN;
             resultString.AppendLine($"{WeatherStringParams[6]} {currentWeatherApiResponse.Clouds.All}  {symbol}");
-
-            resultString.AppendLine();
         }
     }
 }

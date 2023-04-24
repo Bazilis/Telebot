@@ -1,4 +1,6 @@
-﻿namespace Telebot.Constants
+﻿using System.Runtime.Intrinsics.X86;
+
+namespace Telebot.Constants
 {
     public static class AirWeatherConstants
     {
@@ -16,7 +18,7 @@
         public static readonly string[] WeatherStringParams = new string[]
         {
             "Temp -----", "Feels ------", "Press -----", "Humid ----",
-            "Speed ----", "Direct -----", "Clouds ---"
+            "Speed ----", "Direct -----", "Clouds ---", "Avg temp -----"
         };
 
         public static readonly string AirWeatherParamsInfo =
@@ -26,7 +28,8 @@
             "Humid --- Humidity, %\n" +
             "Speed ---- Wind speed, meter/sec\n" +
             "Direct ----- Wind direction, degrees\n" +
-            "Clouds --- Cloudiness, %\n\n" +
+            "Clouds --- Cloudiness, %\n" +
+            "Avg temp --- For previous day, celsius\n\n" +
 
             "AQI ----- 1-Good, 2-Fair, 3-Moderate\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t4-Poor, 5-Very Poor\n" +
