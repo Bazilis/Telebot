@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Globalization;
 using System.Text;
 using Telebot.Dto;
 using static Telebot.Constants.AirWeatherConstants;
@@ -43,6 +44,7 @@ namespace Telebot.Services
                 var timeZoneOffset = GetTimeZoneOffset(subscription, userState);
                 var airDate = DateTimeOffset.FromUnixTimeSeconds(airPollutionResponseModel.List[0].Dt).AddHours(timeZoneOffset);
 
+                resultString.AppendLine();
                 resultString.AppendLine($"{airDate.TimeOfDay}");
 
                 if (isForSubscription)
@@ -116,7 +118,7 @@ namespace Telebot.Services
                     else
                     {
                         if(subscription.HourCounter != 0)
-                            resultString.AppendLine($"{WeatherStringParams[7]} {subscription.TempDaySum / subscription.HourCounter}");
+                            resultString.AppendLine($"{WeatherStringParams[7]} {(subscription.TempDaySum / subscription.HourCounter).ToString("F", CultureInfo.InvariantCulture)}");
                         subscription.TempDaySum = weatherResponseModel.Main.Temp;
                         subscription.HourCounter = 1;
                     }
@@ -145,8 +147,6 @@ namespace Telebot.Services
             CurrentAirPollutionApiResponseDto lastCurrentAirPollutionApiResponse,
             StringBuilder resultString)
         {
-            resultString.AppendLine();
-
             char symbol = currentAirPollutionApiResponse.List[0].Main.Aqi > lastCurrentAirPollutionApiResponse.List[0].Main.Aqi ? UP : currentAirPollutionApiResponse.List[0].Main.Aqi == lastCurrentAirPollutionApiResponse.List[0].Main.Aqi ? LINE : DOWN;
             resultString.AppendLine($"{AirStringParams[0]} {currentAirPollutionApiResponse.List[0].Main.Aqi}  {symbol}");
 
