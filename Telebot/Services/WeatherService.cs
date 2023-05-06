@@ -132,7 +132,6 @@ namespace Telebot.Services
                     resultString.AppendLine($"{WeatherStringParams[4]} {weatherResponseModel.Wind.Speed}");
                     resultString.AppendLine($"{WeatherStringParams[5]} {weatherResponseModel.Wind.Deg}");
                     resultString.AppendLine($"{WeatherStringParams[6]} {weatherResponseModel.Clouds.All}");
-                    resultString.AppendLine();
                 }
             }
             catch (HttpRequestException ex)

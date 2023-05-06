@@ -1,6 +1,4 @@
-﻿using System.Runtime.Intrinsics.X86;
-
-namespace Telebot.Constants
+﻿namespace Telebot.Constants
 {
     public static class AirWeatherConstants
     {
@@ -45,7 +43,7 @@ namespace Telebot.Constants
         public static readonly string AvailableCities =
             "Berlin\nBialystok\nGomel\nHurghada\nIstanbul\nJizzakh\n" +
             "Kaliningrad\nKyiv\nLondon\nMadrid\nMilan\nMinsk\n" +
-            "Nicosia\nNizhny Novgorod\nOdesa\nParis\nPinsk\nRome\n" +
-            "Sharm el Sheikh\nTashkent\nTbilisi\nVilnius\nWarsaw\nWroclaw\n";
+            "Nicosia\nOdesa\nParis\nPinsk\nRome\nSharm el Sheikh\n" +
+            "Tashkent\nTbilisi\nToulon\nVilnius\nWarsaw\nWroclaw\n";
     }
 }

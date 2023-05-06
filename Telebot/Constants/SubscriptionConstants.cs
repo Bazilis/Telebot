@@ -25,9 +25,16 @@ namespace Telebot.Constants
                 new SubscriptionDto
                 {
                     City = "Vilnius",
-                    TimeZoneOffset = 2,
+                    TimeZoneOffset = 3,
                     WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Vilnius&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
                     AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=54.6892&lon=25.2798&appid={Environment.GetEnvironmentVariable("ApiKey")}"
+                },
+                new SubscriptionDto
+                {
+                    City = "Toulon",
+                    TimeZoneOffset = 2,
+                    WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Toulon&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
+                    AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=43.1167&lon=5.9333&appid={Environment.GetEnvironmentVariable("ApiKey")}"
                 },
                 new SubscriptionDto
                 {
@@ -46,14 +53,14 @@ namespace Telebot.Constants
                 new SubscriptionDto
                 {
                     City = "Sharm el Sheikh",
-                    TimeZoneOffset = 2,
+                    TimeZoneOffset = 3,
                     WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Sharm%20el%20Sheikh&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
                     AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=27.8518&lon=34.305&appid={Environment.GetEnvironmentVariable("ApiKey")}"
                 },
                 new SubscriptionDto
                 {
                     City = "Rome",
-                    TimeZoneOffset = 1,
+                    TimeZoneOffset = 2,
                     WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Rome&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
                     AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=34.257&lon=-85.1647&appid={Environment.GetEnvironmentVariable("ApiKey")}"
                 },
@@ -67,7 +74,7 @@ namespace Telebot.Constants
                 new SubscriptionDto
                 {
                     City = "Paris",
-                    TimeZoneOffset = 1,
+                    TimeZoneOffset = 2,
                     WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Paris&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
                     AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=48.8534&lon=2.3488&appid={Environment.GetEnvironmentVariable("ApiKey")}"
                 },
@@ -77,13 +84,6 @@ namespace Telebot.Constants
                     TimeZoneOffset = 3,
                     WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Odesa&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
                     AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=46.4775&lon=30.7326&appid={Environment.GetEnvironmentVariable("ApiKey")}"
-                },
-                new SubscriptionDto
-                {
-                    City = "Nizhny Novgorod",
-                    TimeZoneOffset = 3,
-                    WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Nizhny%20Novgorod&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
-                    AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=56.3287&lon=44.002&appid={Environment.GetEnvironmentVariable("ApiKey")}"
                 },
                 new SubscriptionDto
                 {
@@ -109,14 +109,14 @@ namespace Telebot.Constants
                 new SubscriptionDto
                 {
                     City = "Madrid",
-                    TimeZoneOffset = 1,
+                    TimeZoneOffset = 2,
                     WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Madrid&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
                     AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=40.4165&lon=-3.7026&appid={Environment.GetEnvironmentVariable("ApiKey")}"
                 },
                 new SubscriptionDto
                 {
                     City = "London",
-                    TimeZoneOffset = 0,
+                    TimeZoneOffset = 1,
                     WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=London&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
                     AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=51.5085&lon=-0.1257&appid={Environment.GetEnvironmentVariable("ApiKey")}"
                 },
@@ -172,7 +172,7 @@ namespace Telebot.Constants
                 new SubscriptionDto
                 {
                     City = "Berlin",
-                    TimeZoneOffset = 1,
+                    TimeZoneOffset = 2,
                     WeatherUrl = $"https://api.openweathermap.org/data/2.5/weather?q=Berlin&units=metric&appid={Environment.GetEnvironmentVariable("ApiKey")}",
                     AirPollutionUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat=52.5244&lon=13.4105&appid={Environment.GetEnvironmentVariable("ApiKey")}"
                 },
